@@ -1,0 +1,22 @@
+{
+  "Client Component Setup": {
+    "prefix": "csc",
+    "body": [
+      "'use Client",
+      "import { FC } from 'react';",
+      "",
+      "type Props = {}",
+      "",
+      "const $1:FC<Props> = () => {",
+      "",
+      "return (",
+      "<>",
+      "",
+      "</>",
+      ")",
+      "}",
+      "export default $1"
+    ],
+    "description": "ServerComponentSetup"
+  }
+}
