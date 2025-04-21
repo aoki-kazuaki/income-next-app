@@ -2,7 +2,7 @@
   "Client Component Setup": {
     "prefix": "csc",
     "body": [
-      "'use Client",
+      "'use client'",
       "import { FC } from 'react';",
       "",
       "type Props = {}",
