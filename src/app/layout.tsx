@@ -1,4 +1,7 @@
+import Container from "@/components/molecules/Container";
+import AppFooter from "@/components/organisms/App/Footer";
 import AppHeader from "@/components/organisms/App/Header";
+import clsx from "clsx";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
@@ -25,9 +28,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={clsx("flex min-h-screen flex-col antialiased", geistSans, geistMono.variable)}>
         <AppHeader />
-        {children}
+        <Container className="min-h[calc(100vh-1.75rem)] lg:min-h[calc(100vh-3rem)] flex-1 py-8">{children}</Container>
+        <AppFooter />
       </body>
     </html>
   );
