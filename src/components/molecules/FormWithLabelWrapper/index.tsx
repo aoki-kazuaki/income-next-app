@@ -1,0 +1,21 @@
+"use client";
+import { FormWithLabelType } from "@/types/common";
+import { FC } from "react";
+import FormWithLabel from "../FormWithLabel";
+
+type Props = {
+  formWithLabels: FormWithLabelType[];
+};
+/**フォームアイテムを縦レイアウトで配置する行間調整用のコンポーネント */
+const FormWithLabelWrapper: FC<Props> = ({ formWithLabels, ...other }) => {
+  return (
+    <>
+      <div className="flex flex-col gap-4" {...other}>
+        {formWithLabels.map(item => (
+          <FormWithLabel key={item.formItemId} {...item} />
+        ))}
+      </div>
+    </>
+  );
+};
+export default FormWithLabelWrapper;
