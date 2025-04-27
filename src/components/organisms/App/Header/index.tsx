@@ -13,7 +13,7 @@ const AppHeader: FC = () => {
       {thisPathShouldHide && <></>}
       {!thisPathShouldHide && (
         <>
-          <header className="fixed top-0 left-0 h-7 w-full bg-gray-400 lg:h-12 text-white">
+          <header className="bg-primary text-primary-foreground fixed top-0 left-0 h-7 w-full lg:h-12">
             <Container className="flex h-full items-center justify-between">
               <h1 className="text-sm font-bold lg:text-2xl">{THIS_APP_TITLE}</h1>
             </Container>
