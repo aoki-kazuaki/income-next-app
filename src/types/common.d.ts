@@ -5,5 +5,5 @@ export type FormWithLabelType = {
   labelWith: boolean;
   formContent: ReactNode;
   formItemId?: string;
-  validationMessage?: string;
+  validationMessage?: string | FieldError | Merge<FieldError, FieldErrorsImpl>;
 };
