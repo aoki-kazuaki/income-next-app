@@ -1,13 +1,12 @@
-import { FC } from 'react';
+import { FC } from "react";
 
-type Props = {}
+type Props = {};
 
-const GlobalNotFound:FC<Props> = () => {
-
-return (
-<>
-<p>not-found</p>
-</>
-)
-}
-export default GlobalNotFound
+const GlobalNotFound: FC<Props> = () => {
+  return (
+    <>
+      <p>not-found</p>
+    </>
+  );
+};
+export default GlobalNotFound;

@@ -1,13 +1,12 @@
-import { FC } from 'react';
+import { FC } from "react";
 
-type Props = {}
+type Props = {};
 
-const GlobalLoading:FC<Props> = () => {
-
-return (
-<>
-  <p>読み込み中...</p>
-</>
-)
-}
-export default GlobalLoading
+const GlobalLoading: FC<Props> = () => {
+  return (
+    <>
+      <p>読み込み中...</p>
+    </>
+  );
+};
+export default GlobalLoading;
