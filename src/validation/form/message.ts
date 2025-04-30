@@ -4,6 +4,6 @@ export const VALIDATION_MESSAGE = {
     format: "e-mailの入力形式が正しくありません"
   },
   password: {
-    required: "passwordは入力必須です",
+    required: "passwordは入力必須です"
   }
-}
+};
