@@ -11,8 +11,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import * as Yup from "yup";
 
 type FormValues = {
-  emailLogin: string;
-  passwordLogin: string;
+  email: string;
+  password: string;
 };
 
 const LoginForm: FC = () => {
@@ -21,8 +21,8 @@ const LoginForm: FC = () => {
   const passwordId = generateFormLabelId("password");
 
   const thisFormSChema = Yup.object().shape({
-    emailLogin: YUP_EMAIL_LOGIN,
-    passwordLogin: YUP_PASSWORD_LOGIN
+    email: YUP_EMAIL_LOGIN,
+    password: YUP_PASSWORD_LOGIN
   });
 
   const {
@@ -40,16 +40,16 @@ const LoginForm: FC = () => {
       labelWith: true,
       labelBold: true,
       formItemId: emailId,
-      formContent: <CFormInput id={emailId} type="email" {...register("emailLogin")} />,
-      validationMessage: errors.emailLogin?.message
+      formContent: <CFormInput id={emailId} type="email" {...register("email")} />,
+      validationMessage: errors.email?.message
     },
     {
       label: "password",
       labelWith: true,
       labelBold: true,
       formItemId: passwordId,
-      formContent: <CFormInput type="password" id={passwordId} {...register("passwordLogin")} />,
-      validationMessage: errors.passwordLogin?.message
+      formContent: <CFormInput type="password" id={passwordId} {...register("password")} />,
+      validationMessage: errors.password?.message
     }
   ];
 
