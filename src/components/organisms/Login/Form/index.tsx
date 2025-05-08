@@ -4,14 +4,15 @@ import CFormInput from "@/components/atoms/CForm/Input";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
 import useFormLabelId from "@/hooks/useFormLabelId";
 import { FormWithLabelType } from "@/types/common";
-import { schema } from "@/validation/form/validation";
+import { YUP_EMAIL_LOGIN, YUP_PASSWORD_LOGIN } from "@/validation/form/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import * as Yup from "yup";
 
 type FormValues = {
-  email: string;
-  password: string;
+  emailLogin: string;
+  passwordLogin: string;
 };
 
 const LoginForm: FC = () => {
@@ -19,36 +20,36 @@ const LoginForm: FC = () => {
   const emailId = generateFormLabelId("e-mail");
   const passwordId = generateFormLabelId("password");
 
-  const THIS_FORM_LABEL = {
-    email: "e-mail",
-    password: "password"
-  };
+  const thisFormSChema = Yup.object().shape({
+    emailLogin: YUP_EMAIL_LOGIN,
+    passwordLogin: YUP_PASSWORD_LOGIN
+  });
 
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<FormValues>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(thisFormSChema),
     mode: "onBlur"
   });
 
   const formWithLabels: FormWithLabelType[] = [
     {
-      label: THIS_FORM_LABEL.email,
+      label: "email",
       labelWith: true,
       labelBold: true,
       formItemId: emailId,
-      formContent: <CFormInput id={emailId} type="email" {...register("email")} />,
-      validationMessage: errors.email?.message
+      formContent: <CFormInput id={emailId} type="email" {...register("emailLogin")} />,
+      validationMessage: errors.emailLogin?.message
     },
     {
-      label: THIS_FORM_LABEL.password,
+      label: "password",
       labelWith: true,
       labelBold: true,
       formItemId: passwordId,
-      formContent: <CFormInput type="password" id={passwordId} {...register("password")} />,
-      validationMessage: errors.password?.message
+      formContent: <CFormInput type="password" id={passwordId} {...register("passwordLogin")} />,
+      validationMessage: errors.passwordLogin?.message
     }
   ];
 
