@@ -6,6 +6,7 @@ const config: Config = {
     "./src/**/*.{js,ts,jsx,tsx}",
     "./app/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./src/styles/**/*.{css}"
   ],
   theme: {
     extend: {
@@ -25,7 +26,7 @@ const config: Config = {
         background: "hsl(var(--color-background))",
         foreground: "hsl(var(--color-foreground))",
         ring: "hsl(var(--color-ring))",
-        border: "hsl(var(--color-border))",
+        border: "hsl(var(--color-border))"
       }
     }
   },
