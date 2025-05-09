@@ -11,9 +11,9 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@/components",
+    "components": "@/components/shadBase",
     "utils": "@/lib/utils",
-    "ui": "@/components",
+    "ui": "@/components/shadBase",
     "lib": "@/lib",
     "hooks": "@/hooks"
   },
