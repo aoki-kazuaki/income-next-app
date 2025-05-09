@@ -1,9 +1,9 @@
 "use client";
-import { FormWithLabelType } from "@/types/common";
+import { FormWithLabelDetail } from "@/types/common";
 import clsx from "clsx";
 import { FC } from "react";
 
-type Props = {} & FormWithLabelType;
+type Props = {} & FormWithLabelDetail;
 
 const FormWithLabel: FC<Props> = ({
   formContent: formItem,

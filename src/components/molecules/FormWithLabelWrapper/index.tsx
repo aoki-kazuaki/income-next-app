@@ -1,10 +1,10 @@
 "use client";
-import { FormWithLabelType } from "@/types/common";
+import { FormWithLabelDetail } from "@/types/common";
 import { FC } from "react";
 import FormWithLabel from "../FormWithLabel";
 
 type Props = {
-  formWithLabels: FormWithLabelType[];
+  formWithLabels: FormWithLabelDetail[];
 };
 /**フォームアイテムを縦レイアウトで配置する行間調整用のコンポーネント */
 const FormWithLabelWrapper: FC<Props> = ({ formWithLabels, ...other }) => {

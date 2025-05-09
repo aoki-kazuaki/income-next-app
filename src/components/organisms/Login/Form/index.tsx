@@ -3,7 +3,7 @@ import { CButton } from "@/components/atoms/CButton";
 import CFormInput from "@/components/atoms/CForm/Input";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
 import useFormLabelId from "@/hooks/useFormLabelId";
-import { FormWithLabelType } from "@/types/common";
+import { FormWithLabelDetail } from "@/types/common";
 import { YUP_EMAIL_LOGIN, YUP_PASSWORD_LOGIN } from "@/validation/form/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FC } from "react";
@@ -34,7 +34,7 @@ const LoginForm: FC = () => {
     mode: "onBlur"
   });
 
-  const formWithLabels: FormWithLabelType[] = [
+  const formWithLabels: FormWithLabelDetail[] = [
     {
       label: "email",
       labelWith: true,

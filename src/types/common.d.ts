@@ -1,5 +1,5 @@
 /**フォームアイテムをオブジェクト定義する際に使用する */
-export type FormWithLabelType = {
+export type FormWithLabelDetail = {
   label: string;
   labelBold?: boolean;
   labelWith: boolean;
