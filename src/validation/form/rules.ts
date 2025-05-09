@@ -9,7 +9,7 @@ export const YUP_USER_NAME_REGISTER = Yup.string()
   .min(3, VALIDATION_MESSAGE_STATIC.nameRegister.min);
 
 /**生年月日ルール */
-export const YUP_BIRTH_DATE_REGISTER = Yup.string().required(VALIDATION_MESSAGE_STATIC.birthDateRegister.required);
+export const YUP_BIRTH_DATE_REGISTER = Yup.date().required(VALIDATION_MESSAGE_STATIC.birthDateRegister.required);
 
 /** e-mailルール*/
 export const YUP_EMAIL_REGISTER = Yup.string()

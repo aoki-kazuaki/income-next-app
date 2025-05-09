@@ -1,7 +1,7 @@
 "use client";
-import { CButton } from "@/components/atoms/CButton";
-import CFormDate from "@/components/atoms/CForm/Date";
-import CFormInput from "@/components/atoms/CForm/Input";
+import CButton from "@/components/atoms/CButton";
+import FormCDatePicker from "@/components/atoms/Form/CDatePicker";
+import FormCInput from "@/components/atoms/Form/CInput";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
 import useFormLabelId from "@/hooks/useFormLabelId";
 import { registerFormAtom } from "@/store/registerFormStore";
@@ -14,16 +14,17 @@ import {
   YUP_USER_NAME_REGISTER
 } from "@/validation/form/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
+import dayjs from "dayjs";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 
 import { FC, useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import * as Yup from "yup";
 
 type FormValues = {
   name: string;
-  birthDate: string;
+  birthDate: Date;
   email: string;
   password: string;
 };
@@ -50,7 +51,8 @@ const RegisterForm: FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    control
   } = useForm<FormValues>({
     resolver: yupResolver(thisFormSchema),
     mode: "onBlur"
@@ -62,7 +64,7 @@ const RegisterForm: FC = () => {
       labelBold: true,
       labelWith: true,
       formItemId: nameId,
-      formContent: <CFormInput id={nameId} {...register("name")} />,
+      formContent: <FormCInput id={nameId} {...register("name")} />,
       validationMessage: errors.name?.message
     },
     {
@@ -70,7 +72,15 @@ const RegisterForm: FC = () => {
       labelBold: true,
       labelWith: true,
       formItemId: birthDateId,
-      formContent: <CFormDate id={birthDateId} {...register("birthDate")} />,
+      formContent: (
+        <Controller
+          name="birthDate"
+          control={control}
+          render={({ field }) => (
+            <FormCDatePicker id={birthDateId} value={field.value as Date | undefined} onChange={date => field.onChange(date)} />
+          )}
+        />
+      ),
       validationMessage: errors.birthDate?.message
     },
     {
@@ -78,7 +88,7 @@ const RegisterForm: FC = () => {
       labelWith: true,
       labelBold: true,
       formItemId: emailId,
-      formContent: <CFormInput id={emailId} type="email" {...register("email")} />,
+      formContent: <FormCInput id={emailId} type="email" {...register("email")} />,
       validationMessage: errors.email?.message
     },
     {
@@ -86,20 +96,28 @@ const RegisterForm: FC = () => {
       labelWith: true,
       labelBold: true,
       formItemId: passwordId,
-      formContent: <CFormInput type="password" id={passwordId} {...register("password")} />,
+      formContent: <FormCInput type="password" id={passwordId} {...register("password")} />,
       validationMessage: errors.password?.message
     }
   ];
 
   const onSubmit: SubmitHandler<FormValues> = data => {
-    setRegisterFormValues(data);
-    console.log(data)
+    const formatted = {
+      ...data,
+      birthDate: dayjs(data.birthDate).format("YYYY-MM-DD")
+    };
+    setRegisterFormValues(formatted);
+    console.log(data);
     router.push("/register/secret-question");
   };
 
   useEffect(() => {
     if (!boolAllValuesFilled(registerFormValues)) return;
-    reset(registerFormValues);
+    const mountValue = {
+      ...registerFormValues,
+      birthDate: dayjs(registerFormValues.birthDate).toDate()
+    };
+    reset(mountValue);
   }, [registerFormValues, reset]);
 
   return (
