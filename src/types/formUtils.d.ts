@@ -8,6 +8,7 @@ export type FormWithLabelDetail = {
   validationMessage?: string | FieldError | Merge<FieldError, FieldErrorsImpl>;
 };
 
+/**セレクトボックス、ラジオボタンで使用するtext valueの定数管理型情報 */
 export type OptionTextAndValue = {
   text: string;
   value: string;

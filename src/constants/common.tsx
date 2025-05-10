@@ -1,3 +1,5 @@
+/**入力欄ではない箇所, 空文字 */
+export const EMPTY_STRING = "";
 /**入力欄のデフォルト値, 空文字 */
 export const EMPTY_INPUT = "";
 /**ラジオボタン、セレクトボックスのデフォルト値 */
