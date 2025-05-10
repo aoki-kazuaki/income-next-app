@@ -7,3 +7,8 @@ export type FormWithLabelDetail = {
   formItemId?: string;
   validationMessage?: string | FieldError | Merge<FieldError, FieldErrorsImpl>;
 };
+
+export type OptionTextAndValue = {
+  text: string;
+  value: string;
+};

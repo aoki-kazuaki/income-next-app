@@ -1,5 +1,5 @@
 "use client";
-import { FormWithLabelDetail } from "@/types/common";
+import { FormWithLabelDetail } from "@/types/formUtils";
 import clsx from "clsx";
 import { FC } from "react";
 

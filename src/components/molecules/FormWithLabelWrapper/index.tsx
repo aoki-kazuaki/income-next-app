@@ -1,5 +1,5 @@
 "use client";
-import { FormWithLabelDetail } from "@/types/common";
+import { FormWithLabelDetail } from "@/types/formUtils";
 import { FC } from "react";
 import FormWithLabel from "../FormWithLabel";
 

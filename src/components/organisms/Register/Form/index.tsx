@@ -1,11 +1,11 @@
 "use client";
-import { CButton } from "@/components/atoms/CButton";
-import CFormDate from "@/components/atoms/CForm/Date";
-import CFormInput from "@/components/atoms/CForm/Input";
+import CButton from "@/components/atoms/CButton";
+import FormCDate from "@/components/atoms/Form/CDate";
+import FormCInput from "@/components/atoms/Form/CInput";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
 import useFormLabelId from "@/hooks/useFormLabelId";
 import { registerFormAtom } from "@/store/registerFormStore";
-import { FormWithLabelDetail } from "@/types/common";
+import { FormWithLabelDetail } from "@/types/formUtils";
 import { boolAllValuesFilled } from "@/utils/boolean";
 import {
   YUP_BIRTH_DATE_REGISTER,
@@ -62,7 +62,7 @@ const RegisterForm: FC = () => {
       labelBold: true,
       labelWith: true,
       formItemId: nameId,
-      formContent: <CFormInput id={nameId} {...register("name")} />,
+      formContent: <FormCInput id={nameId} {...register("name")} />,
       validationMessage: errors.name?.message
     },
     {
@@ -70,7 +70,7 @@ const RegisterForm: FC = () => {
       labelBold: true,
       labelWith: true,
       formItemId: birthDateId,
-      formContent: <CFormDate id={birthDateId} {...register("birthDate")} />,
+      formContent: <FormCDate id={birthDateId} {...register("birthDate")} />,
       validationMessage: errors.birthDate?.message
     },
     {
@@ -78,7 +78,7 @@ const RegisterForm: FC = () => {
       labelWith: true,
       labelBold: true,
       formItemId: emailId,
-      formContent: <CFormInput id={emailId} type="email" {...register("email")} />,
+      formContent: <FormCInput id={emailId} type="email" {...register("email")} />,
       validationMessage: errors.email?.message
     },
     {
@@ -86,14 +86,14 @@ const RegisterForm: FC = () => {
       labelWith: true,
       labelBold: true,
       formItemId: passwordId,
-      formContent: <CFormInput type="password" id={passwordId} {...register("password")} />,
+      formContent: <FormCInput type="password" id={passwordId} {...register("password")} />,
       validationMessage: errors.password?.message
     }
   ];
 
   const onSubmit: SubmitHandler<FormValues> = data => {
     setRegisterFormValues(data);
-    console.log(data)
+    console.log(data);
     router.push("/register/secret-question");
   };
 

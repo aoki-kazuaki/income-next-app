@@ -1,11 +1,14 @@
 "use client";
-import { CButton } from "@/components/atoms/CButton";
-import CFormInput from "@/components/atoms/CForm/Input";
+
+import CButton from "@/components/atoms/CButton";
+import FormCInput from "@/components/atoms/Form/CInput";
+import FormCSelect from "@/components/atoms/Form/CSelect";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
+import { SECRET_QUESTION_ITEMS } from "@/constants/formOptions";
 import { REGISTER_FORM_DEFAULT } from "@/constants/storeDefault";
 import useFormLabelId from "@/hooks/useFormLabelId";
 import { registerFormAtom } from "@/store/registerFormStore";
-import { FormWithLabelDetail } from "@/types/common";
+import { FormWithLabelDetail } from "@/types/formUtils";
 import { boolAllValuesFilled } from "@/utils/boolean";
 import {
   YUP_PASSWORD_RETRY_REGISTER,
@@ -17,7 +20,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { FC, useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import * as Yup from "yup";
 
 type FormValues = {
@@ -52,7 +55,8 @@ const RegisterSecretQuestionForm: FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    control
   } = useForm<FormValues>({
     resolver: yupResolver(thisFormSchema),
     mode: "onBlur"
@@ -64,7 +68,15 @@ const RegisterSecretQuestionForm: FC = () => {
       labelWith: true,
       labelBold: true,
       formItemId: secretQuestionId,
-      formContent: <CFormInput id={secretQuestionId} {...register("secretQuestion")} />,
+      formContent: (
+        <Controller
+          name="secretQuestion"
+          control={control}
+          render={({ field }) => (
+            <FormCSelect id={secretQuestionId} value={field.value} onChange={field.onChange} options={SECRET_QUESTION_ITEMS} />
+          )}
+        />
+      ),
       validationMessage: errors.secretQuestion?.message
     },
     {
@@ -72,7 +84,7 @@ const RegisterSecretQuestionForm: FC = () => {
       labelWith: true,
       labelBold: true,
       formItemId: secretQuestionValueId,
-      formContent: <CFormInput id={secretQuestionValueId} {...register("secretQuestionValue")} />,
+      formContent: <FormCInput id={secretQuestionValueId} {...register("secretQuestionValue")} />,
       validationMessage: errors.secretQuestionValue?.message
     },
     {
@@ -80,7 +92,7 @@ const RegisterSecretQuestionForm: FC = () => {
       labelWith: true,
       labelBold: true,
       formItemId: passwordRetryId,
-      formContent: <CFormInput id={passwordRetryId} {...register("passwordRetry")} />,
+      formContent: <FormCInput id={passwordRetryId} {...register("passwordRetry")} />,
       validationMessage: errors.passwordRetry?.message
     }
   ];

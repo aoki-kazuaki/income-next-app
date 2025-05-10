@@ -1,9 +1,9 @@
 "use client";
-import { CButton } from "@/components/atoms/CButton";
-import CFormInput from "@/components/atoms/CForm/Input";
+import CButton from "@/components/atoms/CButton";
+import FormCInput from "@/components/atoms/Form/CInput";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
 import useFormLabelId from "@/hooks/useFormLabelId";
-import { FormWithLabelDetail } from "@/types/common";
+import { FormWithLabelDetail } from "@/types/formUtils";
 import { YUP_EMAIL_LOGIN, YUP_PASSWORD_LOGIN } from "@/validation/form/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FC } from "react";
@@ -40,7 +40,7 @@ const LoginForm: FC = () => {
       labelWith: true,
       labelBold: true,
       formItemId: emailId,
-      formContent: <CFormInput id={emailId} type="email" {...register("email")} />,
+      formContent: <FormCInput id={emailId} type="email" {...register("email")} />,
       validationMessage: errors.email?.message
     },
     {
@@ -48,7 +48,7 @@ const LoginForm: FC = () => {
       labelWith: true,
       labelBold: true,
       formItemId: passwordId,
-      formContent: <CFormInput type="password" id={passwordId} {...register("password")} />,
+      formContent: <FormCInput type="password" id={passwordId} {...register("password")} />,
       validationMessage: errors.password?.message
     }
   ];
