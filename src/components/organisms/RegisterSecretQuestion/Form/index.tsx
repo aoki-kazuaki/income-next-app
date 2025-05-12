@@ -6,6 +6,7 @@ import FormCSelect from "@/components/atoms/Form/CSelect";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
 import { SECRET_QUESTION_ITEMS } from "@/constants/formOptions";
 import { REGISTER_FORM_DEFAULT } from "@/constants/storeDefault";
+import { useConfirmDialog } from "@/hooks/useDialog";
 import useFormLabelId from "@/hooks/useFormLabelId";
 import { registerFormAtom } from "@/store/registerFormStore";
 import { FormWithLabelDetail } from "@/types/formUtils";
@@ -31,6 +32,8 @@ type FormValues = {
 
 const RegisterSecretQuestionForm: FC = () => {
   const router = useRouter();
+
+  const dialog = useConfirmDialog();
 
   const [registerFormValues, setRegisterFormValues] = useAtom(registerFormAtom);
 
@@ -97,7 +100,17 @@ const RegisterSecretQuestionForm: FC = () => {
     }
   ];
 
-  const onSubmit: SubmitHandler<FormValues> = data => {
+  const onSubmit: SubmitHandler<FormValues> = async data => {
+    const ok = dialog({
+      title: "登録確認",
+      description: "入力した内容で登録します。よろしいですか？",
+      nextLabel: "登録する",
+      cancelLabel: "キャンセル"
+    });
+
+    const confirmed = await ok;
+    if (!confirmed) return;
+
     const requestBody = {
       secret: {
         question: data.secretQuestion,
