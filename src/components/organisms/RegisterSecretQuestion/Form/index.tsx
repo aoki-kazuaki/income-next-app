@@ -95,7 +95,7 @@ const RegisterSecretQuestionForm: FC = () => {
       labelWith: true,
       labelBold: true,
       formItemId: passwordRetryId,
-      formContent: <FormCInput id={passwordRetryId} {...register("passwordRetry")} />,
+      formContent: <FormCInput type="password" id={passwordRetryId} {...register("passwordRetry")} />,
       validationMessage: errors.passwordRetry?.message
     }
   ];

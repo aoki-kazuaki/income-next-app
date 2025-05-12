@@ -6,7 +6,7 @@ import { FC } from "react";
 const LoginPage: FC = () => {
   return (
     <ContainerFillScreen>
-      <ContainerFillScreenCard cardTitle="ログインページ">
+      <ContainerFillScreenCard cardTitle="ログインページ" hiddenLinkToTop={true}>
         <LoginForm />
       </ContainerFillScreenCard>
     </ContainerFillScreen>

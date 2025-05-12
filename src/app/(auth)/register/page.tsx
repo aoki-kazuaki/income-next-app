@@ -8,7 +8,7 @@ const RegisterPage: FC = () => {
   return (
     <>
       <ContainerFillScreen>
-        <ContainerFillScreenCard cardTitle="アカウント新規登録">
+        <ContainerFillScreenCard cardTitle="アカウント新規登録" hiddenLinkToTop={true}>
           <RegisterForm />
         </ContainerFillScreenCard>
       </ContainerFillScreen>
