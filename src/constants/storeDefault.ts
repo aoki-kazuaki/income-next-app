@@ -1,3 +1,4 @@
+import { ConfirmDialogState } from "@/types/dialogState";
 import { LoginUserAuth } from "@/types/loginUserAuth";
 import { EMPTY_INPUT, EMPTY_STRING } from "./common";
 
@@ -18,4 +19,14 @@ export const REGISTER_FORM_DEFAULT = {
   birthDate: EMPTY_INPUT,
   email: EMPTY_INPUT,
   password: EMPTY_INPUT
+};
+
+/**ダイアログの初期値 */
+export const DIALOG_DEFAULT: ConfirmDialogState = {
+  open: false,
+  title: "",
+  description: "",
+  nextLabel: "OK",
+  cancelLabel: "キャンセル",
+  resolve: undefined
 };

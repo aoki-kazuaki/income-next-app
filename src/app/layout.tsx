@@ -1,4 +1,5 @@
 import Container from "@/components/molecules/Container";
+import AppDialog from "@/components/organisms/App/Dialog";
 import AppFooter from "@/components/organisms/App/Footer";
 import AppHeader from "@/components/organisms/App/Header";
 import clsx from "clsx";
@@ -32,6 +33,7 @@ export default function RootLayout({
         <AppHeader />
         <Container className="min-h[calc(100vh-1.75rem)] lg:min-h[calc(100vh-3rem)] flex-1 py-8">{children}</Container>
         <AppFooter />
+        <AppDialog />
       </body>
     </html>
   );

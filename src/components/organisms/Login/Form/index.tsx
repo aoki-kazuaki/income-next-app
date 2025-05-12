@@ -2,6 +2,7 @@
 import CButton from "@/components/atoms/CButton";
 import FormCInput from "@/components/atoms/Form/CInput";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
+import { useConfirmDialog } from "@/hooks/useDialog";
 import useFormLabelId from "@/hooks/useFormLabelId";
 import { FormWithLabelDetail } from "@/types/formUtils";
 import { YUP_EMAIL_LOGIN, YUP_PASSWORD_LOGIN } from "@/validation/form/rules";
@@ -16,6 +17,8 @@ type FormValues = {
 };
 
 const LoginForm: FC = () => {
+  const dialog = useConfirmDialog();
+
   const { generateFormLabelId } = useFormLabelId();
   const emailId = generateFormLabelId("e-mail");
   const passwordId = generateFormLabelId("password");
@@ -53,9 +56,18 @@ const LoginForm: FC = () => {
     }
   ];
 
-  const onSubmit: SubmitHandler<FormValues> = data => {
-    alert("クリックしたよ");
+  const onSubmit: SubmitHandler<FormValues> = async data => {
+    const ok = dialog({
+      title: "ログインしますか？",
+      description: "メールアドレスとパスワードでログインします",
+      nextLabel: "ログイン",
+      cancelLabel: "キャンセル"
+    });
+
+    const confirmed = await ok;
+    if (!confirmed) return;
     console.log(data);
+    //ログイン処理を書くこと
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex h-full w-11/12 flex-col gap-7">
