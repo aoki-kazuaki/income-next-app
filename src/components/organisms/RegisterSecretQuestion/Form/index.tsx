@@ -4,13 +4,18 @@ import CButton from "@/components/atoms/CButton";
 import FormCInput from "@/components/atoms/Form/CInput";
 import FormCSelect from "@/components/atoms/Form/CSelect";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
+import { EMPTY_INPUT } from "@/constants/common";
 import { SECRET_QUESTION_ITEMS } from "@/constants/formOptions";
 import { REGISTER_FORM_DEFAULT } from "@/constants/storeDefault";
 import { useConfirmDialog } from "@/hooks/useDialog";
 import useFormLabelId from "@/hooks/useFormLabelId";
+import useInput from "@/hooks/useInput";
+import browserHttpClient from "@/lib/browserHttpClient";
 import { registerFormAtom } from "@/store/registerFormStore";
 import { FormWithLabelDetail } from "@/types/formUtils";
+import { UserRegisterRequest } from "@/types/userRegister";
 import { boolAllValuesFilled } from "@/utils/boolean";
+import { strConversionMessageServerForClient } from "@/utils/string";
 import {
   YUP_PASSWORD_RETRY_REGISTER,
   YUP_SECRET_QUESTION_REGISTER,
@@ -18,6 +23,7 @@ import {
 } from "@/validation/form/rules";
 import { VALIDATION_MESSAGE_STATIC } from "@/validation/form/staticMessage";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { isAxiosError } from "axios";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { FC, useEffect } from "react";
@@ -36,6 +42,9 @@ const RegisterSecretQuestionForm: FC = () => {
   const dialog = useConfirmDialog();
 
   const [registerFormValues, setRegisterFormValues] = useAtom(registerFormAtom);
+
+  //UI上に表示するバリデーションメッセージ
+  const [validMessage, setValidMessage] = useInput();
 
   const { generateFormLabelId } = useFormLabelId();
   const secretQuestionId = generateFormLabelId("questionSelect");
@@ -101,6 +110,7 @@ const RegisterSecretQuestionForm: FC = () => {
   ];
 
   const onSubmit: SubmitHandler<FormValues> = async data => {
+    setValidMessage(EMPTY_INPUT);
     const ok = dialog({
       title: "登録確認",
       description: "入力した内容で登録します。よろしいですか？",
@@ -111,7 +121,7 @@ const RegisterSecretQuestionForm: FC = () => {
     const confirmed = await ok;
     if (!confirmed) return;
 
-    const requestBody = {
+    const requestBody: UserRegisterRequest = {
       secret: {
         question: data.secretQuestion,
         questionValue: data.secretQuestionValue
@@ -119,7 +129,21 @@ const RegisterSecretQuestionForm: FC = () => {
       ...registerFormValues
     };
     console.log(requestBody);
-    setRegisterFormValues(REGISTER_FORM_DEFAULT);
+
+    try {
+      await browserHttpClient.post("/api/users/register", requestBody);
+      setRegisterFormValues(REGISTER_FORM_DEFAULT);
+    } catch (error) {
+      console.error(error);
+      if (!isAxiosError(error)) return;
+      //バリデーションメッセージの存在チェック
+      const extractMessage = strConversionMessageServerForClient(error.response?.data.message);
+      if (extractMessage) setValidMessage(extractMessage);
+    }
+  };
+
+  const onClickPageBack = () => {
+    router.back();
   };
 
   //リロード実施などで前画面での入力内容がリセットされている場合は初期登録画面に戻る
@@ -131,7 +155,13 @@ const RegisterSecretQuestionForm: FC = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex h-full w-11/12 flex-col gap-7">
         <FormWithLabelWrapper formWithLabels={formWithLabels} />
+        {validMessage && <p className="valid-message">{validMessage}</p>}
         <CButton>登録する</CButton>
+        {validMessage && (
+          <CButton variant="outline" type="button" onClick={onClickPageBack}>
+            メールアドレス設定に戻る
+          </CButton>
+        )}
       </form>
     </>
   );

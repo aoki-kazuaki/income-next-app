@@ -1,4 +1,4 @@
-import httpClient from "./httpClient";
+import browserHttpClient from "./browserHttpClient";
 
 const REFRESH_PATH = "/token/refresh";
 
@@ -15,7 +15,7 @@ export const tokenRefreshManager = {
       if (!isRefreshing) {
         isRefreshing = true;
         try {
-          await httpClient.post(REFRESH_PATH);
+          await browserHttpClient.post(REFRESH_PATH);
           refreshSubscribers.forEach(cb => cb());
         } catch (err) {
           reject(err);

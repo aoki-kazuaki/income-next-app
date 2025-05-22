@@ -2,7 +2,7 @@
 export type LoginUserAuth = {
   email: string;
   name: string;
-  UuId: string;
+  uuId: string;
   createdAt: string;
   lastLoginAt: string;
   avatarUrl: string;

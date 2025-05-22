@@ -2,13 +2,13 @@ import { RetryAxiosRequestConfig } from "@/types/httpClient";
 import axios, { AxiosError } from "axios";
 import { tokenRefreshManager } from "./tokenManager";
 
-export const httpClient = axios.create({
+export const browserHttpClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
   timeout: 10000
 });
 
-httpClient.interceptors.response.use(
+browserHttpClient.interceptors.response.use(
   res => res,
   async (error: AxiosError) => {
     const originalRequest = error.config as RetryAxiosRequestConfig;
@@ -18,7 +18,7 @@ httpClient.interceptors.response.use(
 
       try {
         await tokenRefreshManager.ensureRefreshed();
-        return httpClient(originalRequest);
+        return browserHttpClient(originalRequest);
       } catch (refreshError) {
         return Promise.reject(refreshError);
       }
@@ -28,4 +28,4 @@ httpClient.interceptors.response.use(
   }
 );
 
-export default httpClient;
+export default browserHttpClient;

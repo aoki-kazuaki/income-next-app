@@ -5,6 +5,8 @@
 /* tailwind CSSの@custom-variantで拡張、dark系の独自挙動を定義している(shadcnが使ってるPostCSS経由) */
 @custom-variant dark (&:is(.dark *));
 
+@import "./apply.css";
+
 /* 全体共通のCSS変数を定義する場所(グローバルスコープ) */
 /* --（ダッシュ2個）は「CSSのカスタムプロパティ（変数）」の 定義 を意味する！ */
 :root {
@@ -129,6 +131,7 @@
     @apply bg-background text-foreground;
   }
 }
+
 
 button {
   cursor: pointer;

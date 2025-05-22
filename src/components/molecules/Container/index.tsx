@@ -1,8 +1,7 @@
-import { ClassName } from "@/types/styleProps";
 import clsx from "clsx";
 import { ComponentPropsWithoutRef, FC } from "react";
 
-type Props = {} & ComponentPropsWithoutRef<"div"> & ClassName;
+type Props = {} & ComponentPropsWithoutRef<"div">;
 
 const Container: FC<Props> = ({ children, className, ...other }) => {
   return (

@@ -1,0 +1,3 @@
+.valid-message {
+  @apply font-bold text-red-500 text-center
+}
