@@ -1,7 +1,5 @@
 import browserHttpClient from "./browserHttpClient";
 
-const REFRESH_PATH = "/token/refresh";
-
 let isRefreshing = false;
 let refreshSubscribers: (() => void)[] = [];
 
@@ -15,7 +13,7 @@ export const tokenRefreshManager = {
       if (!isRefreshing) {
         isRefreshing = true;
         try {
-          await browserHttpClient.post(REFRESH_PATH);
+          await browserHttpClient.get("/api/auth/refresh");
           refreshSubscribers.forEach(cb => cb());
         } catch (err) {
           reject(err);
