@@ -1,6 +1,6 @@
 import { REGISTER_FORM_DEFAULT } from "@/constants/storeDefault";
-import { RegisterForm } from "@/types/userRegister";
+import { FirstStepRegisterForm } from "@/types/userRegister";
 import { atom } from "jotai";
 
 /**新規登録フォームでのマウント時のデフォルト値 */
-export const registerFormAtom = atom<RegisterForm>(REGISTER_FORM_DEFAULT);
+export const registerFormAtom = atom<FirstStepRegisterForm>(REGISTER_FORM_DEFAULT);

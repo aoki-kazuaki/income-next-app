@@ -2,16 +2,16 @@
 import CButton from "@/components/atoms/CButton";
 import { CAlert } from "@/components/molecules/CAlert";
 import { LOGIN_USER_AUTH_DEFAULT } from "@/constants/storeDefault";
-import { loginUserAuthAtom } from "@/store/loginUserAuth";
+import { currentUserAtom } from "@/store/currentUserAtom";
 import { useAtomValue } from "jotai";
 import Link from "next/link";
 import { FC } from "react";
 
 const TopOnlyGuestAlert: FC = () => {
-  const userAuth = useAtomValue(loginUserAuthAtom);
+  const currentUser = useAtomValue(currentUserAtom);
 
   /**ユーザーがログイン済みの場合はこのアラートは非表示とする */
-  const userIsLogin = !(userAuth.role === LOGIN_USER_AUTH_DEFAULT.role);
+  const userIsLogin = !(currentUser.role === LOGIN_USER_AUTH_DEFAULT.role);
   if (userIsLogin) return null;
 
   const buttonsList = [

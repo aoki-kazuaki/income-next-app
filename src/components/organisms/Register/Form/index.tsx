@@ -4,7 +4,7 @@ import FormCDate from "@/components/atoms/Form/CDate";
 import FormCInput from "@/components/atoms/Form/CInput";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
 import useFormLabelId from "@/hooks/useFormLabelId";
-import { registerFormAtom } from "@/store/registerFormStore";
+import { registerFormAtom } from "@/store/registerFormAtom";
 import { FormWithLabelDetail } from "@/types/formUtils";
 import { boolAllValuesFilled } from "@/utils/boolean";
 import {
@@ -93,7 +93,6 @@ const RegisterForm: FC = () => {
 
   const onSubmit: SubmitHandler<FormValues> = data => {
     setRegisterFormValues(data);
-    console.log(data);
     router.push("/register/secret-question");
   };
 

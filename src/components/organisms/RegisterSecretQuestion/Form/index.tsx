@@ -6,12 +6,12 @@ import FormCSelect from "@/components/atoms/Form/CSelect";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
 import { EMPTY_INPUT } from "@/constants/common";
 import { SECRET_QUESTION_ITEMS } from "@/constants/formOptions";
-import { REGISTER_FORM_DEFAULT } from "@/constants/storeDefault";
 import { useConfirmDialog } from "@/hooks/useDialog";
 import useFormLabelId from "@/hooks/useFormLabelId";
 import useInput from "@/hooks/useInput";
 import browserHttpClient from "@/lib/browserHttpClient";
-import { registerFormAtom } from "@/store/registerFormStore";
+import { currentUserAtom } from "@/store/currentUserAtom";
+import { registerFormAtom } from "@/store/registerFormAtom";
 import { FormWithLabelDetail } from "@/types/formUtils";
 import { UserRegisterRequest } from "@/types/userRegister";
 import { boolAllValuesFilled } from "@/utils/boolean";
@@ -23,8 +23,8 @@ import {
 } from "@/validation/form/rules";
 import { VALIDATION_MESSAGE_STATIC } from "@/validation/form/staticMessage";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { isAxiosError } from "axios";
-import { useAtom } from "jotai";
+import { AxiosResponse, isAxiosError } from "axios";
+import { useAtom, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { FC, useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -41,7 +41,9 @@ const RegisterSecretQuestionForm: FC = () => {
 
   const dialog = useConfirmDialog();
 
-  const [registerFormValues, setRegisterFormValues] = useAtom(registerFormAtom);
+  const [registerFormValues] = useAtom(registerFormAtom);
+
+  const setLoginCurrentUser = useSetAtom(currentUserAtom);
 
   //UI上に表示するバリデーションメッセージ
   const [validMessage, setValidMessage] = useInput();
@@ -128,13 +130,17 @@ const RegisterSecretQuestionForm: FC = () => {
       },
       ...registerFormValues
     };
-    console.log(requestBody);
 
     try {
       await browserHttpClient.post("/api/users/register", requestBody);
-      setRegisterFormValues(REGISTER_FORM_DEFAULT);
+      const isLoginResponse: AxiosResponse = await browserHttpClient.get("/api/auth/me");
+      if (!isLoginResponse.data.isLoggedIn) return;
+
+      const userInfo: AxiosResponse = await browserHttpClient.get("/api/users/me");
+      setLoginCurrentUser(userInfo.data.user);
+
+      router.push("/");
     } catch (error) {
-      console.error(error);
       if (!isAxiosError(error)) return;
       //バリデーションメッセージの存在チェック
       const extractMessage = strConversionMessageServerForClient(error.response?.data.message);

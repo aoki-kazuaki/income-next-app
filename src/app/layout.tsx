@@ -1,4 +1,5 @@
 import Container from "@/components/molecules/Container";
+import AppAuthInitializer from "@/components/organisms/App/AuthInitializer";
 import AppDialog from "@/components/organisms/App/Dialog";
 import AppFooter from "@/components/organisms/App/Footer";
 import AppHeader from "@/components/organisms/App/Header";
@@ -30,6 +31,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={clsx("flex min-h-screen flex-col antialiased", geistSans, geistMono.variable)}>
+        <AppAuthInitializer />
         <AppHeader />
         <Container className="min-h[calc(100vh-1.75rem)] lg:min-h[calc(100vh-3rem)] flex-1 py-8">{children}</Container>
         <AppFooter />
