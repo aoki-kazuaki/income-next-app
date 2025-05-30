@@ -3,7 +3,7 @@
 import { ServerErrorNextResponse } from "@/types/server/error";
 import { ServerTokenResponse } from "@/types/server/token";
 import { AxiosResponse, isAxiosError } from "axios";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 /**共通エラーハンドリング */
 export const handleServerError = (error: unknown): NextResponse<ServerErrorNextResponse> => {
@@ -15,6 +15,7 @@ export const handleServerError = (error: unknown): NextResponse<ServerErrorNextR
   return NextResponse.json({ message: "不明なエラーが発生しました" }, { status: 500 });
 };
 
+/** Nextレスポンスに受け取ったアクセストークンとリフレッシュトークンを付与する*/
 export const setAuthCookie = (nextResponse: NextResponse, axiosResponse: AxiosResponse) => {
   const tokens: ServerTokenResponse = axiosResponse.data;
   nextResponse.cookies.set("access_token", tokens.accessToken, {
@@ -32,4 +33,13 @@ export const setAuthCookie = (nextResponse: NextResponse, axiosResponse: AxiosRe
   });
 
   return nextResponse;
+};
+
+/**リクエスト時のcookieからaccessTokenとrefreshTokenを取り出して再度リクエストヘッダーとする。 */
+export const extractCookieTokens = (request: NextRequest) => {
+  const accessToken = request.cookies.get("access_token")?.value ?? "";
+  const refreshToken = request.cookies.get("refresh_token")?.value ?? "";
+
+  const cookieHeader = `access_token=${accessToken}; refresh_token=${refreshToken}`;
+  return cookieHeader;
 };

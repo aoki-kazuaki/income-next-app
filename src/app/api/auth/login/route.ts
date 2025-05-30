@@ -4,6 +4,7 @@ import { handleServerError, setAuthCookie } from "@/utils/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest): Promise<NextResponse> => {
+  // リクエストボディでのid, passwordを送信するため、ヘッダーのcookieは付与しない
   const requestBody: UserLoginRequest = await request.json();
 
   try {

@@ -1,26 +1,19 @@
 import { serverHttpClient } from "@/lib/serverHttpClient";
+import { extractCookieTokens } from "@/utils/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (request: NextRequest): Promise<NextResponse> => {
-  const accessToken = request.cookies.get("access_token")?.value ?? "";
-  const refreshToken = request.cookies.get("refresh_token")?.value ?? "";
-
-  const cookieHeader = `access_token=${accessToken}; refresh_token=${refreshToken}`;
-
-  if (!accessToken) {
-    return NextResponse.json({ isLoggedIn: false }, { status: 401 });
-  }
+  const cookie = extractCookieTokens(request);
 
   try {
     const response = await serverHttpClient.get("/api/auth/me", {
       headers: {
-        Cookie: cookieHeader
+        Cookie: cookie
       }
     });
 
     return NextResponse.json({ isLoggedIn: true, user: response.data });
-  } catch (error) {
-    console.error("auth/me failed:", error);
+  } catch {
     return NextResponse.json({ isLoggedIn: false }, { status: 401 });
   }
 };

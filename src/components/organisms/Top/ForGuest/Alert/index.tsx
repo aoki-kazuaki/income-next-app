@@ -1,19 +1,10 @@
 "use client";
 import CButton from "@/components/atoms/CButton";
 import { CAlert } from "@/components/molecules/CAlert";
-import { LOGIN_USER_AUTH_DEFAULT } from "@/constants/storeDefault";
-import { currentUserAtom } from "@/store/currentUserAtom";
-import { useAtomValue } from "jotai";
 import Link from "next/link";
 import { FC } from "react";
 
-const TopOnlyGuestAlert: FC = () => {
-  const currentUser = useAtomValue(currentUserAtom);
-
-  /**ユーザーがログイン済みの場合はこのアラートは非表示とする */
-  const userIsLogin = !(currentUser.role === LOGIN_USER_AUTH_DEFAULT.role);
-  if (userIsLogin) return null;
-
+const TopForGuestAlert: FC = () => {
   const buttonsList = [
     { description: "すでに登録済みの場合は", to: "/login" },
     { description: "アカウントの新規作成は", to: "/register" }
@@ -34,4 +25,4 @@ const TopOnlyGuestAlert: FC = () => {
     </CAlert>
   );
 };
-export default TopOnlyGuestAlert;
+export default TopForGuestAlert;

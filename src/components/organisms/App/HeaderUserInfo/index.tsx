@@ -1,6 +1,6 @@
 "use client";
 import IconGuestUser from "@/assets/Icons/GuestUser";
-import { LOGIN_USER_AUTH_DEFAULT } from "@/constants/storeDefault";
+import { CURRENT_USER_DEFAULT } from "@/constants/storeDefault";
 import { currentUserAtom } from "@/store/currentUserAtom";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
@@ -9,7 +9,7 @@ import { FC } from "react";
 const AppHeaderUserInfo: FC = () => {
   const currentUser = useAtomValue(currentUserAtom);
 
-  const isGuest = currentUser.role === LOGIN_USER_AUTH_DEFAULT.role;
+  const isGuest = currentUser.role === CURRENT_USER_DEFAULT.role;
 
   const avatarUrl = currentUser.avatarUrl ? currentUser.avatarUrl : "https://www.gravatar.com/avatar/?d=mp";
 
