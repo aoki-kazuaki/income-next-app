@@ -1,5 +1,5 @@
 import { LOGIN_USER_AUTH_DEFAULT } from "@/constants/storeDefault";
-import { CurrentUser } from "@/types/currentUser";
+import { UserCurrent } from "@/types/user/current";
 import { atom } from "jotai";
 /**ユーザーのログイン情報保持 */
-export const currentUserAtom = atom<CurrentUser>(LOGIN_USER_AUTH_DEFAULT);
+export const currentUserAtom = atom<UserCurrent>(LOGIN_USER_AUTH_DEFAULT);

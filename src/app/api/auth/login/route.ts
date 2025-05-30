@@ -1,15 +1,15 @@
 import { serverHttpClient } from "@/lib/serverHttpClient";
-import { UserRegisterRequest } from "@/types/user/register";
+import { UserLoginRequest } from "@/types/user/login";
 import { handleServerError, setAuthCookie } from "@/utils/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest): Promise<NextResponse> => {
-  const requestBody: UserRegisterRequest = await request.json();
+  const requestBody: UserLoginRequest = await request.json();
 
   try {
-    const response = await serverHttpClient.post("/api/users/register", requestBody);
+    const response = await serverHttpClient.post("/api/auth/login", requestBody);
 
-    const nextResponse = NextResponse.json({ message: "登録が完了しました" });
+    const nextResponse = NextResponse.json({ isLoggedIn: true, user: response.data });
 
     return setAuthCookie(nextResponse, response);
   } catch (error) {

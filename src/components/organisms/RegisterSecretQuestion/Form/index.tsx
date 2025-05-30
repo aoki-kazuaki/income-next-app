@@ -13,7 +13,7 @@ import browserHttpClient from "@/lib/browserHttpClient";
 import { currentUserAtom } from "@/store/currentUserAtom";
 import { registerFormAtom } from "@/store/registerFormAtom";
 import { FormWithLabelDetail } from "@/types/formUtils";
-import { UserRegisterRequest } from "@/types/userRegister";
+import { UserRegisterRequest } from "@/types/user/register";
 import { boolAllValuesFilled } from "@/utils/boolean";
 import { strConversionMessageServerForClient } from "@/utils/string";
 import {

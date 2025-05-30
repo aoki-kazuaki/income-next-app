@@ -1,9 +1,9 @@
-import { CurrentUser } from "@/types/currentUser";
 import { ConfirmDialogState } from "@/types/dialogState";
+import { UserCurrent } from "@/types/user/current";
 import { EMPTY_INPUT, EMPTY_STRING } from "./common";
 
 /**ユーザーのログイン情報を管理するデフォルト値 */
-export const LOGIN_USER_AUTH_DEFAULT: CurrentUser = {
+export const LOGIN_USER_AUTH_DEFAULT: UserCurrent = {
   email: EMPTY_STRING,
   name: EMPTY_STRING,
   uuid: EMPTY_STRING,

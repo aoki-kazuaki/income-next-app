@@ -6,5 +6,9 @@ export const SERVER_MESSAGE_CLIENT_CONVERSION_LIST = [
   {
     serverMessage: "This email is already in use.",
     clientMessage: "このメールアドレスはすでに登録済みです"
+  },
+  {
+    serverMessage: "Invalid email or password.",
+    clientMessage: "メールアドレスかパスワードが不正です"
   }
 ];

@@ -1,11 +1,12 @@
 // // サーバーサイド(app/api下で使用するutils関数)
 
-import { NextResponseError, TokenResponse } from "@/types/server";
+import { ServerErrorNextResponse } from "@/types/server/error";
+import { ServerTokenResponse } from "@/types/server/token";
 import { AxiosResponse, isAxiosError } from "axios";
 import { NextResponse } from "next/server";
 
 /**共通エラーハンドリング */
-export const handleServerError = (error: unknown): NextResponse<NextResponseError> => {
+export const handleServerError = (error: unknown): NextResponse<ServerErrorNextResponse> => {
   if (isAxiosError(error)) {
     const status = error.response?.status || 500;
     const message = error.response?.data || "サーバーエラーが発生しました";
@@ -15,7 +16,7 @@ export const handleServerError = (error: unknown): NextResponse<NextResponseErro
 };
 
 export const setAuthCookie = (nextResponse: NextResponse, axiosResponse: AxiosResponse) => {
-  const tokens: TokenResponse = axiosResponse.data;
+  const tokens: ServerTokenResponse = axiosResponse.data;
   nextResponse.cookies.set("access_token", tokens.accessToken, {
     httpOnly: true, //JavaScriptからアクセスできないようにする
     secure: true, // HTTPS通信でしか送られなくなる

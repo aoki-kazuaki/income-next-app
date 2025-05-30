@@ -1,5 +1,5 @@
 /**jotaiで保持するユーザーのログイン情報保持 */
-export type CurrentUser = {
+export type UserCurrent = {
   email: string;
   name: string;
   uuid: string;

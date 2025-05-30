@@ -4,10 +4,17 @@ import FormCInput from "@/components/atoms/Form/CInput";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
 import { useConfirmDialog } from "@/hooks/useDialog";
 import useFormLabelId from "@/hooks/useFormLabelId";
+import browserHttpClient from "@/lib/browserHttpClient";
+import { currentUserAtom } from "@/store/currentUserAtom";
 import { FormWithLabelDetail } from "@/types/formUtils";
+import { UserLoginRequest } from "@/types/user/login";
+import { strConversionMessageServerForClient } from "@/utils/string";
 import { YUP_EMAIL_LOGIN, YUP_PASSWORD_LOGIN } from "@/validation/form/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FC } from "react";
+import axios, { isAxiosError } from "axios";
+import { useSetAtom } from "jotai";
+import { useRouter } from "next/navigation";
+import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as Yup from "yup";
 
@@ -17,7 +24,13 @@ type FormValues = {
 };
 
 const LoginForm: FC = () => {
+  const router = useRouter();
+
   const dialog = useConfirmDialog();
+
+  const setCurrentUserAtom = useSetAtom(currentUserAtom);
+
+  const [validationMessage, setValidationMessage] = useState("");
 
   const { generateFormLabelId } = useFormLabelId();
   const emailId = generateFormLabelId("e-mail");
@@ -66,12 +79,31 @@ const LoginForm: FC = () => {
 
     const confirmed = await ok;
     if (!confirmed) return;
-    console.log(data);
-    //ログイン処理を書くこと
+
+    const requestBody: UserLoginRequest = {
+      email: data.email,
+      password: data.password
+    };
+
+    try {
+      await axios.post("/api/auth/login", requestBody, {
+        baseURL: process.env.NEXT_PUBLIC_API_URL,
+        withCredentials: true
+      });
+      const userMeResponse = await browserHttpClient.get("api/users/me");
+      setCurrentUserAtom(userMeResponse.data.user);
+      router.push("/");
+    } catch (err) {
+      if (!isAxiosError(err)) return;
+      const extractMessage = strConversionMessageServerForClient(err.response?.data.message);
+      if (!extractMessage) return;
+      setValidationMessage(extractMessage);
+    }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex h-full w-11/12 flex-col gap-7">
       <FormWithLabelWrapper formWithLabels={formWithLabels} />
+      {validationMessage && <p className="valid-message">{validationMessage}</p>}
       <CButton>ログイン</CButton>
     </form>
   );
