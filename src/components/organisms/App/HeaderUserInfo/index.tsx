@@ -1,17 +1,15 @@
 "use client";
 import IconGuestUser from "@/assets/Icons/GuestUser";
-import { CURRENT_USER_DEFAULT } from "@/constants/storeDefault";
-import { currentUserAtom } from "@/store/currentUserAtom";
-import { useAtomValue } from "jotai";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import Image from "next/image";
 import { FC } from "react";
 
 const AppHeaderUserInfo: FC = () => {
-  const currentUser = useAtomValue(currentUserAtom);
-
-  const isGuest = currentUser.role === CURRENT_USER_DEFAULT.role;
+  const { currentUser, isGuest, isLoggedIn, currentUserLoading } = useCurrentUser();
 
   const avatarUrl = currentUser.avatarUrl ? currentUser.avatarUrl : "https://www.gravatar.com/avatar/?d=mp";
+
+  if (currentUserLoading) return <p>Loading...</p>;
 
   return (
     <div className="flex items-center gap-1">
@@ -23,7 +21,7 @@ const AppHeaderUserInfo: FC = () => {
           <p>Guest</p>
         </>
       )}
-      {!isGuest && (
+      {isLoggedIn && (
         <>
           <div className="h-5 w-5 overflow-hidden rounded-full border">
             <Image height={20} width={20} src={avatarUrl} alt="ユーザーアイコン" />

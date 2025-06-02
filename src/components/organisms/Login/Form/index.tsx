@@ -11,7 +11,7 @@ import { UserLoginRequest } from "@/types/user/login";
 import { strConversionMessageServerForClient } from "@/utils/string";
 import { YUP_EMAIL_LOGIN, YUP_PASSWORD_LOGIN } from "@/validation/form/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios, { isAxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
@@ -86,7 +86,7 @@ const LoginForm: FC = () => {
     };
 
     try {
-      await axios.post("/api/auth/login", requestBody, {
+      await browserHttpClient.post("/api/auth/login", requestBody, {
         baseURL: process.env.NEXT_PUBLIC_API_URL,
         withCredentials: true
       });

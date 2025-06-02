@@ -1,4 +1,5 @@
 import { RetryAxiosRequestConfig } from "@/types/httpClient";
+import { ServerErrorResponseMessage } from "@/types/server/error";
 import axios, { AxiosError } from "axios";
 import { tokenRefreshManager } from "./tokenManager";
 
@@ -13,7 +14,11 @@ browserHttpClient.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as RetryAxiosRequestConfig;
 
-    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
+    const statusIs401 = error.response?.status === 401;
+    const message = (error.response?.data as ServerErrorResponseMessage)?.message;
+    const tokenExpired = message === "JWT has expired.";
+
+    if (statusIs401 && tokenExpired && originalRequest && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {

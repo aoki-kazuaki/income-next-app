@@ -10,5 +10,9 @@ export const SERVER_MESSAGE_CLIENT_CONVERSION_LIST = [
   {
     serverMessage: "Invalid email or password.",
     clientMessage: "メールアドレスかパスワードが不正です"
+  },
+  {
+    serverMessage: "JWT has expired.",
+    clientMessage: "JWT認証切れです"
   }
 ];

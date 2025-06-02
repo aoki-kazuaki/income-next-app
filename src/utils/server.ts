@@ -1,12 +1,12 @@
 // // サーバーサイド(app/api下で使用するutils関数)
 
-import { ServerErrorNextResponse } from "@/types/server/error";
+import { ServerErrorResponseMessage } from "@/types/server/error";
 import { ServerTokenResponse } from "@/types/server/token";
 import { AxiosResponse, isAxiosError } from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
 /**共通エラーハンドリング */
-export const handleServerError = (error: unknown): NextResponse<ServerErrorNextResponse> => {
+export const handleServerError = (error: unknown): NextResponse<ServerErrorResponseMessage> => {
   if (isAxiosError(error)) {
     const status = error.response?.status || 500;
     const message = error.response?.data || "サーバーエラーが発生しました";
