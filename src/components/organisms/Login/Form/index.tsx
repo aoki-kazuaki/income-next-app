@@ -2,6 +2,7 @@
 import CButton from "@/components/atoms/CButton";
 import FormCInput from "@/components/atoms/Form/CInput";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
+import LoadingDialog from "@/components/molecules/LoadingDialog";
 import { useConfirmDialog } from "@/hooks/useDialog";
 import useFormLabelId from "@/hooks/useFormLabelId";
 import browserHttpClient from "@/lib/browserHttpClient";
@@ -31,6 +32,8 @@ const LoginForm: FC = () => {
   const setCurrentUserAtom = useSetAtom(currentUserAtom);
 
   const [validationMessage, setValidationMessage] = useState("");
+
+  const [showLoading, setShowLoading] = useState(false);
 
   const { generateFormLabelId } = useFormLabelId();
   const emailId = generateFormLabelId("e-mail");
@@ -80,6 +83,8 @@ const LoginForm: FC = () => {
     const confirmed = await ok;
     if (!confirmed) return;
 
+    setShowLoading(true);
+
     const requestBody: UserLoginRequest = {
       email: data.email,
       password: data.password
@@ -98,14 +103,20 @@ const LoginForm: FC = () => {
       const extractMessage = strConversionMessageServerForClient(err.response?.data.message);
       if (!extractMessage) return;
       setValidationMessage(extractMessage);
+    } finally {
+      setShowLoading(false);
     }
   };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex h-full w-11/12 flex-col gap-7">
-      <FormWithLabelWrapper formWithLabels={formWithLabels} />
-      {validationMessage && <p className="valid-message">{validationMessage}</p>}
-      <CButton>ログイン</CButton>
-    </form>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex h-full w-11/12 flex-col gap-7">
+        <FormWithLabelWrapper formWithLabels={formWithLabels} />
+        {validationMessage && <p className="valid-message">{validationMessage}</p>}
+        <CButton>ログイン</CButton>
+      </form>
+      {showLoading && <LoadingDialog loadingText="Waiting" />}
+    </>
   );
 };
 export default LoginForm;

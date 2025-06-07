@@ -4,6 +4,7 @@ import CButton from "@/components/atoms/CButton";
 import FormCInput from "@/components/atoms/Form/CInput";
 import FormCSelect from "@/components/atoms/Form/CSelect";
 import FormWithLabelWrapper from "@/components/molecules/FormWithLabelWrapper";
+import LoadingDialog from "@/components/molecules/LoadingDialog";
 import { EMPTY_INPUT } from "@/constants/common";
 import { SECRET_QUESTION_ITEMS } from "@/constants/formOptions";
 import { useConfirmDialog } from "@/hooks/useDialog";
@@ -26,7 +27,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { AxiosResponse, isAxiosError } from "axios";
 import { useAtom, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import * as Yup from "yup";
 
@@ -43,10 +44,12 @@ const RegisterSecretQuestionForm: FC = () => {
 
   const [registerFormValues] = useAtom(registerFormAtom);
 
-  const setLoginCurrentUser = useSetAtom(currentUserAtom);
-
   //UI上に表示するバリデーションメッセージ
   const [validMessage, setValidMessage] = useInput();
+
+  const [showLoading, setShowLoading] = useState(false);
+
+  const setLoginCurrentUser = useSetAtom(currentUserAtom);
 
   const { generateFormLabelId } = useFormLabelId();
   const secretQuestionId = generateFormLabelId("questionSelect");
@@ -123,6 +126,8 @@ const RegisterSecretQuestionForm: FC = () => {
     const confirmed = await ok;
     if (!confirmed) return;
 
+    setShowLoading(true);
+
     const requestBody: UserRegisterRequest = {
       secret: {
         question: data.secretQuestion,
@@ -145,6 +150,8 @@ const RegisterSecretQuestionForm: FC = () => {
       //バリデーションメッセージの存在チェック
       const extractMessage = strConversionMessageServerForClient(error.response?.data.message);
       if (extractMessage) setValidMessage(extractMessage);
+    } finally {
+      setShowLoading(false);
     }
   };
 
@@ -169,6 +176,7 @@ const RegisterSecretQuestionForm: FC = () => {
           </CButton>
         )}
       </form>
+      {showLoading && <LoadingDialog loadingText="Waiting" />}
     </>
   );
 };
